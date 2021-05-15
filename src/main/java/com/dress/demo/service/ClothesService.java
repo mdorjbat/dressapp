@@ -1,10 +1,51 @@
 package com.dress.demo.service;
 
 import com.dress.demo.controller.ClothesController;
+import com.dress.demo.exception.InformationNotFoundException;
+import com.dress.demo.model.Clothes;
+import com.dress.demo.repository.ClothesRepository;
 import com.dress.demo.repository.UserRepository;
+import com.dress.demo.security.MyUserDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.List;
 
 public class ClothesService {
-    private ClothesController clothesController;
-    private UserRepository userRepository;
 
+    private UserRepository userRepository;
+    private ClothesRepository clothesRepository;
+
+    @Autowired
+    public void setClothesRepository(ClothesRepository clothesRepository){this.clothesRepository = clothesRepository;}
+
+    public List<Clothes> getClothes(){
+        System.out.println("service calling getClothes");
+        MyUserDetails userDetails = gettingUserDetails();
+        List<Clothes> clothes = clothesRepository.findByUserId(userDetails.getUser().getId());
+        if(clothes.isEmpty()){
+            throw new InformationNotFoundException("No cothes found for that user id " + userDetails.getUser().getId());
+        }else{
+            return clothes;
+        }
+    }
+
+    public Clothes getCloth(Long clothId){
+        System.out.println("service calling getCloth");
+        MyUserDetails userDetails = gettingUserDetails();
+        Clothes clothes = clothesRepository.findByIdAndUserId(clothId, userDetails.getUser().getId());
+        if(clothes == null){
+            throw new InformationNotFoundException("cloth with id " + clothId + " not found");
+        }else{
+            return clothes;
+        }
+    }
+
+    private MyUserDetails gettingUserDetails() {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return userDetails;
+    }
 }
