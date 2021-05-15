@@ -28,5 +28,9 @@ public class ClothesController {
     }
 
     //Create a new clothes
-    @PostMapping("/")
+    @PostMapping("/clothes")
+    public Clothes createClothes(@RequestBody Clothes clothesObject){
+        System.out.println("creating new clothes");
+        return clothesService.createClothes(clothesObject);
+    }
 }

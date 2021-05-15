@@ -1,6 +1,7 @@
 package com.dress.demo.service;
 
 import com.dress.demo.controller.ClothesController;
+import com.dress.demo.exception.InformationExistException;
 import com.dress.demo.exception.InformationNotFoundException;
 import com.dress.demo.model.Clothes;
 import com.dress.demo.repository.ClothesRepository;
@@ -38,6 +39,18 @@ public class ClothesService {
             throw new InformationNotFoundException("cloth with id " + clothId + " not found");
         }else{
             return clothes;
+        }
+    }
+
+    public Clothes createClothes(Clothes clothesObject){
+        System.out.println("service calling createClothes method");
+        MyUserDetails userDetails = gettingUserDetails();
+        Clothes clothes = clothesRepository.findByUserIdAndName(userDetails.getUser().getId(), clothesObject.getName());
+        if(clothes != null){
+            throw new InformationExistException("clothes with name " + clothes.getName() + " already exist");
+        }else{
+            clothesObject.setUser(userDetails.getUser());
+            return clothesRepository.save(clothesObject);
         }
     }
 
