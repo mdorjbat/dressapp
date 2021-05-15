@@ -78,7 +78,18 @@ public class ClothesService {
 
     }
 
-
+    //delete a cloth belonging to current user
+    public String deleteCloth(Long clothId){
+        System.out.println("service calling deleteCloth");
+        MyUserDetails userDetails = gettingUserDetails();
+        Clothes clothes = clothesRepository.findByIdAndUserId(clothId, userDetails.getUser().getId());
+        if(clothes == null){
+            throw  new InformationNotFoundException("clothes with id " + clothId + " not found");
+        }else{
+            clothesRepository.deleteById(clothId);
+            return "cloth with id " + clothId + " has been successfully deleted";
+        }
+    }
 
     private MyUserDetails gettingUserDetails() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder

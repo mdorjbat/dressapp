@@ -34,8 +34,17 @@ public class ClothesController {
         return clothesService.createClothes(clothesObject);
     }
 
+    //update existing clothes
     @PutMapping("/clothes/{clothId}")
     public Clothes updateCloth(@PathVariable Long clothId, @RequestBody Clothes clothesObject){
         return clothesService.updateCloth(clothId, clothesObject);
     }
+
+    //delete a cloth belonging to current user
+    @DeleteMapping("/clotes/{clothId}")
+    public String deleteCloth(@PathVariable Long clothId, @RequestBody Clothes clothesObject){
+        return clothesService.updateCloth(clothId, clothesObject);
+    }
+
+
 }
