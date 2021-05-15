@@ -54,6 +54,32 @@ public class ClothesService {
         }
     }
 
+    public Clothes updateCloth(Long clothId, Clothes clothesObject){
+        System.out.println("service calling updateClothes");
+        MyUserDetails userDetails = gettingUserDetails();
+        Clothes clothes = clothesRepository.findByIdAndUserId(clothId, userDetails.getUser().getId());
+        if(clothes == null){
+            throw new InformationNotFoundException("clothes with id " + clothId + " not found");
+        }else{
+            clothes.setName(clothesObject.getName());
+            clothes.setGender(clothesObject.getGender());
+            clothes.setType(clothesObject.getType());
+            clothes.setColor_main(clothesObject.getColor_main());
+            clothes.setColor_one(clothesObject.getColor_one());
+            clothes.setColor_two(clothesObject.getColor_two());
+            clothes.setSize(clothesObject.getSize());
+            clothes.setAge_level(clothesObject.getAge_level());
+            clothes.setEvent(clothesObject.getEvent());
+            clothes.setImage_path(clothesObject.getImage_path());
+            clothes.setLayer(clothesObject.getLayer());
+
+            return clothesRepository.save(clothes);
+        }
+
+    }
+
+
+
     private MyUserDetails gettingUserDetails() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
                 .getContext()

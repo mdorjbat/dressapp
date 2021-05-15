@@ -33,4 +33,9 @@ public class ClothesController {
         System.out.println("creating new clothes");
         return clothesService.createClothes(clothesObject);
     }
+
+    @PutMapping("/clothes/{clothId}")
+    public Clothes updateCloth(@PathVariable Long clothId, @RequestBody Clothes clothesObject){
+        return clothesService.updateCloth(clothId, clothesObject);
+    }
 }
