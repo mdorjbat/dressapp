@@ -49,7 +49,10 @@ public class ProfileService {
             Profile profile = currentUser.get().getProfile();
             profile.setFirstName(profileObject.getFirstName());
             profile.setLastName(profileObject.getLastName());
-            profile.setDescription(profileObject.getDescription());
+            profile.setAge(profileObject.getAge());
+            profile.setGender(profileObject.getGender());
+            profile.setSize(profileObject.getSize());
+            profile.setPath(profileObject.getPath());
             currentUser.get().setProfile(profile);
             profileRepository.save(profile);
             //return profile;

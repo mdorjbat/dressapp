@@ -50,7 +50,7 @@ public class Profile {
         this.gender = gender;
         this.path = path;
     }
-    
+
     public int getAge() {
         return age;
     }
