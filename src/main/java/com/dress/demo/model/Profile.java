@@ -15,8 +15,15 @@ public class Profile {
     private String firstName;
     @Column
     private String lastName;
+
     @Column
-    private String description;
+    private int age;
+    @Column
+    private String size;
+    @Column
+    private String gender;
+    @Column
+    private String path;
 
     //--------------One to one connection to user
     @JsonIgnore
@@ -34,11 +41,38 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(Long id, String firstName, String lastName, String description) {
+    public Profile(Long id, String firstName, String lastName, int age, String size, String gender, String path) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.description = description;
+        this.age = age;
+        this.size = size;
+        this.gender = gender;
+        this.path = path;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Long getId() {
@@ -65,12 +99,12 @@ public class Profile {
         this.lastName = lastName;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPath() {
+        return path;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
@@ -79,7 +113,10 @@ public class Profile {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", description='" + description + '\'' +
+                ", age=" + age +
+                ", size='" + size + '\'' +
+                ", gender='" + gender + '\'' +
+                ", path='" + path + '\'' +
                 '}';
     }
 }
