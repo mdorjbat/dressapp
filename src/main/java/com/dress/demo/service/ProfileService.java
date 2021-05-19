@@ -55,6 +55,7 @@ public class ProfileService {
 
     public void updateProfile(Profile profileObject) {
         System.out.println("service calling updateUserProfile ==>");
+        System.out.println("need to update database");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         Optional<User> currentUser = userRepository.findById(userDetails.getUser().getId());
