@@ -1,6 +1,8 @@
 package com.dress.demo.service;
 
 import com.dress.demo.exception.InformationExistException;
+import com.dress.demo.exception.InformationNotFoundException;
+import com.dress.demo.model.Clothes;
 import com.dress.demo.model.Profile;
 import com.dress.demo.model.User;
 import com.dress.demo.repository.ProfileRepository;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,6 +29,16 @@ public class ProfileService {
     @Autowired
     public void setUserProfileRepository(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
+    }
+
+    public Profile getProfile(){
+        System.out.println("service calling getProfile");
+        MyUserDetails userDetails = gettingUserDetails();
+        Profile profile = profileRepository.findByUserId(userDetails.getUser().getId());
+//        if (userDetails.getUser().getProfile() == null) {
+//            throw new InformationExistException("user profile is already exists");
+//        }
+            return profile;
     }
 
     public String createProfile(Profile profileObject) {
@@ -59,5 +72,13 @@ public class ProfileService {
         } else {
             throw new InformationExistException("user profile does not exist for current user");
         }
+    }
+
+    private MyUserDetails gettingUserDetails() {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        return userDetails;
     }
 }
